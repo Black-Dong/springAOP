@@ -1,13 +1,33 @@
 ## spring中基于xml的aop配置
 
-   1. 把通知Bean也交给spring来管理  
-   2. 使用aop:config标签表面开始aop的配置  
-   3. 使用aop:aspect表面配置切面  
-   id : 给前面提供唯一标识  
-   ref : 通知类的id,    (在自定义添加事务时,这里可以是引用自定义的事务管理器)
-   4. 在aop:aspect内部使用对应标签配置通知类型  
-        * 类型:前置通知,后置通知,异常通知,最终通知,环绕通知(在环绕通知中有明确的切入点方法调用))  
-        * pointcut属性:用于指定切入点表达式,该方法表示对业务层中哪些方法进行增强
+### bean配置
+   1. 把通知Bean也交给spring来管理  (事务管理器也属于通知类)  
+        1.1 若使用spring的事务管理,需要再配置  
+```xml
+    <tx:advice id="" transaction-manager="">
+        <tx:attributes>
+        <!--
+        isolation=""    指定事务隔离级别
+        propagation=""  指定事务传播行为.默认值时required,查询可以选中supports
+        read-only=""    指定是否只读,只有查询可以设置true,默认值false
+        timeout=""      事务超时时间,默认值-1,永不超时.以秒为单位
+        rollback-for=""     用于指定一个异常,当产生该异常时,事务回滚,产生其他异常,不回滚.无默认值:任何异常都回滚
+        no-rollback-for=""  用于指定一个异常,当产生该异常时,事务不回滚,产生其他异常,回滚.无默认值:任何异常都回滚
+        -->
+            <tx:method name="业务层具体的某个方法" ></tx:method>
+        </tx:attributes>
+    </tx:advice>
+```
+### aop配置
+   1. 使用aop:config标签表面开始aop的配置  
+   若是使用spring的事务管理需使用   `<aop:advisor advice-ref="" pointcut-ref=""></aop:advisor>`将事务通知与切入点表达式建立对应关系
+   
+   2. 使用aop:aspect表面配置切面  
+        2.1 `id` : 给前面提供唯一标识  
+        2.2 `ref` : 通知类的id,    (若是自定义事务管理器,可以将器id写在这)
+   3. 在aop:aspect内部使用对应标签配置通知类型  
+        3.1 类型:前置通知,后置通知,异常通知,最终通知,环绕通知(在环绕通知中有明确的切入点方法调用))  
+        3.2 pointcut属性:用于指定切入点表达式,该方法表示对业务层中哪些方法进行增强
 
    * 切入点表达式:  
         * 关键字:execution(表达式)  
