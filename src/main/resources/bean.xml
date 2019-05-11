@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!--配置spring的ioc,把service对象配置进来-->
+    <bean id="accountService" class="cn.imust.service.impl.AccountServiceImpl"></bean>
+
+    <!--
+    spring中基于xml的aop配置
+        1.把通知Bean也交给spring来管理
+        2.使用aop:config标签表面开始aop的配置
+        3.使用aop:aspect表面配置切面
+            id:给前面提供唯一标识
+            ref:通知类的id
+        4.在aop:aspect内部使用对应标签配置通知类型
+            pointcut属性:用于指定 切入点表达式 ,该方法表示对业务层中哪些方法进行增强
+    -->
+    <!--配置Logger类,增强类-->
+    <bean id="logger" class="cn.imust.utils.Logger"></bean>
+
+    <!--配置AOP-->
+    <aop:config>
+        <!--配置切入点表达式-->
+        <aop:pointcut id="pointcut" expression="execution(* cn.imust.service.impl.*.*(..))"></aop:pointcut>
+        <!--配置切面-->
+        <aop:aspect id="logAdvice" ref="logger">
+            <!--配置通知的类型,并且建立通知方法和切入点方法之间的关联-->
+            <aop:before method="beforePrint" pointcut-ref="pointcut"></aop:before>
+            <aop:after-returning method="afterReturningPrint" pointcut-ref="pointcut"></aop:after-returning>
+            <aop:after-throwing method="afterThrowingPrint" pointcut-ref="pointcut"></aop:after-throwing>
+            <aop:after method="afterPrint" pointcut-ref="pointcut"></aop:after>
+        </aop:aspect>
+    </aop:config>
+</beans>
