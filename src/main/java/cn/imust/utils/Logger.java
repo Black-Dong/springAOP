@@ -62,20 +62,21 @@ public class Logger {
      */
     @Around("pt1()")
     public Object arroundPrint(ProceedingJoinPoint pjp){
+        System.out.println("环绕通知____________________________________");
 
         Object returnValue = null;
         try {
             //得到方法执行所需的参数
             Object[] args = pjp.getArgs();
-            System.out.println("环绕通知......前置通知开启事务");
+            this.beforePrint();
             returnValue = pjp.proceed(args);//明确调用业务层方法（切入点方法）
-            System.out.println("环绕通知......后置通知提交事务");
+            this.afterReturningPrint();
             return returnValue;
         } catch (Throwable throwable) {
-            System.out.println("环绕通知......异常通知回滚事务");
+            this.afterThrowingPrint();
             throw new RuntimeException(throwable);
         }finally {
-            System.out.println("环绕通知......最终通知释放连接");
+            this.afterPrint();
         }
     }
 
