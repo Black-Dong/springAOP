@@ -19,7 +19,7 @@ public class Logger {
      */
 //    @Before("pt1()")
     public void beforePrint(){
-        System.out.println("前置通知......");
+        System.out.println("前置通知开启事务......");
     }
 
     /**
@@ -27,7 +27,7 @@ public class Logger {
      */
 //    @AfterReturning("pt1()")
     public void afterReturningPrint(){
-        System.out.println("后置通知......");
+        System.out.println("后置通知提交事务......");
     }
 
     /**
@@ -35,7 +35,7 @@ public class Logger {
      */
 //    @AfterThrowing("pt1()")
     public void afterThrowingPrint(){
-        System.out.println("异常通知......");
+        System.out.println("异常通知回滚事务......");
     }
 
     /**
@@ -43,7 +43,7 @@ public class Logger {
      */
 //    @After("pt1()")
     public void afterPrint(){
-        System.out.println("最终通知......");
+        System.out.println("最终通知释放连接......");
     }
 
 
@@ -67,15 +67,15 @@ public class Logger {
         try {
             //得到方法执行所需的参数
             Object[] args = pjp.getArgs();
-            System.out.println("环绕通知......前置");
+            System.out.println("环绕通知......前置通知开启事务");
             returnValue = pjp.proceed(args);//明确调用业务层方法（切入点方法）
-            System.out.println("环绕通知......后置");
+            System.out.println("环绕通知......后置通知提交事务");
             return returnValue;
         } catch (Throwable throwable) {
-            System.out.println("环绕通知......异常");
+            System.out.println("环绕通知......异常通知回滚事务");
             throw new RuntimeException(throwable);
         }finally {
-            System.out.println("环绕通知......最终");
+            System.out.println("环绕通知......最终通知释放连接");
         }
     }
 

@@ -27,15 +27,19 @@
     <aop:config>
         <!--配置切入点表达式-->
         <aop:pointcut id="pointcut" expression="execution(* cn.imust.service.impl.*.*(..))"></aop:pointcut>
-        <!--配置切面-->
+        <!--配置切面 id为切面id,ref引用的其实应该是事务管理器-->
         <aop:aspect id="logAdvice" ref="logger">
             <!--配置通知的类型,并且建立通知方法和切入点方法之间的关联-->
-            <!--
-            <aop:before method="beforePrint" pointcut-ref="pointcut"></aop:before>
-            <aop:after-returning method="afterReturningPrint" pointcut-ref="pointcut"></aop:after-returning>
-            <aop:after-throwing method="afterThrowingPrint" pointcut-ref="pointcut"></aop:after-throwing>
-            <aop:after method="afterPrint" pointcut-ref="pointcut"></aop:after>
-            -->
+
+            <!--前置通知开启事务-->
+            <!--<aop:before method="beforePrint" pointcut-ref="pointcut"></aop:before>-->
+            <!--后置通知提交事务-->
+            <!--<aop:after-returning method="afterReturningPrint" pointcut-ref="pointcut"></aop:after-returning>-->
+            <!--异常通知回滚事务-->
+            <!--<aop:after-throwing method="afterThrowingPrint" pointcut-ref="pointcut"></aop:after-throwing>-->
+            <!--最终通知释放连接-->
+            <!--<aop:after method="afterPrint" pointcut-ref="pointcut"></aop:after>-->
+
             <!--配置环绕通知: 注解见Logger.java-->
             <aop:around method="arroundPrint" pointcut-ref="pointcut"></aop:around>
         </aop:aspect>
