@@ -1,15 +1,23 @@
 package cn.imust.utils;
 
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.*;
+import org.springframework.stereotype.Component;
 
 /**
  * 用于记录日志的工具类,提供公共代码
  */
+@Component("logger")
+@Aspect //表示当前类为一个切面类
 public class Logger {
+
+    @Pointcut("execution(* cn.imust.service.impl.*.*(..))")
+    private void pt1(){}
 
     /**
      * 前置通知
      */
+    @Before("pt1()")
     public void beforePrint(){
         System.out.println("前置通知......");
     }
@@ -17,6 +25,7 @@ public class Logger {
     /**
      * 后置通知
      */
+    @AfterReturning("pt1()")
     public void afterReturningPrint(){
         System.out.println("后置通知......");
     }
@@ -24,6 +33,7 @@ public class Logger {
     /**
      * 异常通知
      */
+    @AfterThrowing("pt1()")
     public void afterThrowingPrint(){
         System.out.println("异常通知......");
     }
@@ -31,6 +41,7 @@ public class Logger {
     /**
      * 最终通知
      */
+    @After("pt1()")
     public void afterPrint(){
         System.out.println("最终通知......");
     }
@@ -49,6 +60,7 @@ public class Logger {
      * spring中的环绕通知：
      *      它是spring框架为我们提供的一种可以在代码中手动控制增强方法何时执行的方式。
      */
+//    @Around("pt1()")
     public Object arroundPrint(ProceedingJoinPoint pjp){
 
         Object returnValue = null;
