@@ -30,10 +30,14 @@
         <!--配置切面-->
         <aop:aspect id="logAdvice" ref="logger">
             <!--配置通知的类型,并且建立通知方法和切入点方法之间的关联-->
+            <!--
             <aop:before method="beforePrint" pointcut-ref="pointcut"></aop:before>
             <aop:after-returning method="afterReturningPrint" pointcut-ref="pointcut"></aop:after-returning>
             <aop:after-throwing method="afterThrowingPrint" pointcut-ref="pointcut"></aop:after-throwing>
             <aop:after method="afterPrint" pointcut-ref="pointcut"></aop:after>
+            -->
+            <!--配置环绕通知: 注解见Logger.java-->
+            <aop:around method="arroundPrint" pointcut-ref="pointcut"></aop:around>
         </aop:aspect>
     </aop:config>
 </beans>
