@@ -17,7 +17,7 @@ public class Logger {
     /**
      * 前置通知
      */
-    @Before("pt1()")
+//    @Before("pt1()")
     public void beforePrint(){
         System.out.println("前置通知......");
     }
@@ -25,7 +25,7 @@ public class Logger {
     /**
      * 后置通知
      */
-    @AfterReturning("pt1()")
+//    @AfterReturning("pt1()")
     public void afterReturningPrint(){
         System.out.println("后置通知......");
     }
@@ -33,7 +33,7 @@ public class Logger {
     /**
      * 异常通知
      */
-    @AfterThrowing("pt1()")
+//    @AfterThrowing("pt1()")
     public void afterThrowingPrint(){
         System.out.println("异常通知......");
     }
@@ -41,7 +41,7 @@ public class Logger {
     /**
      * 最终通知
      */
-    @After("pt1()")
+//    @After("pt1()")
     public void afterPrint(){
         System.out.println("最终通知......");
     }
@@ -60,7 +60,7 @@ public class Logger {
      * spring中的环绕通知：
      *      它是spring框架为我们提供的一种可以在代码中手动控制增强方法何时执行的方式。
      */
-//    @Around("pt1()")
+    @Around("pt1()")
     public Object arroundPrint(ProceedingJoinPoint pjp){
 
         Object returnValue = null;
